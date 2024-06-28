@@ -1,0 +1,76 @@
+# 프로젝트 폴더 생성
+mkdir Django_project
+cd Django_project
+python -m venv myvenv
+
+# 가상환경 생성
+cd myvenv
+.\Scripts\Activate.ps1
+(deactivate)
+cd ..
+pip install Django
+
+virtualenv myvenv
+
+# 실제 사이트 생성
+django-admin startproject mytestsite
+cd mytestsite
+
+# 사이트 실행(http://127.0.0.1:8000/)
+python manage.py runserver
+# 사이트 하위 주소 polls 앱 생성(http://127.0.0.1:8000/polls/)
+python manage.py startapp polls
+# 데이터베이스 변경 관리(처음에는 전체에 대해 다음 명령어 적용)
+python manage.py migrate
+# polls 앱에 대해 장고가 데이터베이스 업데이트를 할 수 있도록 명령
+python manage.py makemigrations polls
+
+# 파이썬 쉘 오픈 / 클로스
+python manage.py shell / quit()
+# 데이터베이스 API를 통한 컨트롤
+>>> from polls.models import Choice, Question
+>>> Question.objects.all()
+<QuerySet []>
+>>> from django.utils import timezone
+>>> q = Question(question_text="What's new?", pub_date=timezone.now())
+>>> q.save()
+>>> q.id
+1
+# 질문 객체 생성 및 저장 완료
+>>> q.question_text
+"What's new?"
+>>> q.pub_date
+datetime.datetime(2024, 4, 10, 9, 2, 47, 627953, tzinfo=datetime.timezone.utc)
+>>> q.question_text = "What's up?"
+>>> q.save()
+>>> q.question_text
+"What's up?"
+# 변경 가능
+# 객체 보기
+>>> Question.objects.all()
+<QuerySet [<Question: Question object (1)>]>
+>>> Question.objects.filter(id=1)
+<QuerySet [<Question: What's up?>]>
+>>> Question.objects.filter(question_text__startswith='What')
+<QuerySet [<Question: What's up?>]>
+# Primary key
+>>> q = Question.objects.get(pk=1)
+>>> q.was_published_recently()
+True
+# 하나의 질문 객체에 여러 선택지 부여
+>>> q.choice_set.create(choice_text='Not much', votes=0)
+<Choice: Not much>
+>>> c = q.choice_set.create(choice_text='good', votes=0)
+>>> c.question
+<Question: What's up?>
+>>> q.choice_set.all()
+<QuerySet [<Choice: Not much>, <Choice: good>]>
+>>> q.choice_set.count()
+2
+
+# 관리자 계정
+python manage.py createsuperuser
+# 관리자 서버
+http://127.0.0.1:8000/admin/
+# 개별 앱 관리자 권한 부여
+앱/admin.py -> admin.site.register(DB 객체명)

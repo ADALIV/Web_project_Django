@@ -1,0 +1,45 @@
+로컬 -> 이미지 생성
+사용자 정의 Docker 이미지 생성
+
+터미널에서 도커 사용자 로그인
+docker login
+docker logout
+
+Dockerfile 생성 후 스크립트 설정 내용 저장
+pip freeze > requirements.txt -> 가상환경 접속 후 가상환경에서 설치한 패키지 목록 생성
+manage.py와 같은 경로 폴더 속, Dockerfile, .dockerignore, requirements.txt 저장
+
+Dockerhub 내부 로그인 후 리포지토리 생성
+이미지 생성 및 저장소 푸쉬
+docker build -t adaliv/todo_app:1.0 .
+docker push adaliv/todo_app:1.0
+
+저장소에 올린 도커 이미지 pull
+docker pull adaliv/todo_app:1.0
+docker container run --name webserver -d -p 80:8000 -p 60:8000 adaliv/todo_app:1.0
+
+RUN mkdir /srv/docker-server -> Docker 내부에 폴더 경로 생성
+ADD . /srv/docker-server -> 현재 디렉토리(Django_project/mytestsite) 내부 모든 파일 Docker 폴더 내부 저장
+
+'IP:포트' 형태
+IP = 집 주소
+포트 = 집 내부 방 위치
+
+포트를 여러 개로 매핑
+http://localhost:60/to_do/
+http://localhost:80/to_do/
+동시 접속 가능
+
+
+docker compose = 전체 시스템의 실행(장고, MYSQL) 및 종료... 각각의 이미지를 컨테이너로 실행하고 종속성 부여 과정 대체
+볼륨 매핑과 멀티 컨테이너
+
+즉 './:/app' 은 현재 컨테이너가 로컬을 참조하도록 하는 역할
+'todo-mysql-data:/var/lib/mysql' 은 구체적으로 데이터 베이스 파일이 리눅스 로컬 호스트의 todo-mysql-data를 참조하도록 돕는 역할
+
+compose.yaml 파일 작성 및 각 세부 서비스 내용 작성 및 연동(MYSQL 자동 pull)
+docker compose up -d
+로컬 DB 위치 확인
+docker volume inspect mytestsite_todo-mysql-data
+컨테이너 삭제 후 재생성 및 접속
+데이터 베이스 유지

@@ -1,0 +1,25 @@
+services:
+  app:
+    image: adaliv/todo_app:1.0
+    ports:
+      - 127.0.0.1:80:8000
+      - 127.0.0.1:60:8000
+    working_dir: /app
+    volumes:
+      - ./:/app # docker file에서 생성한 컨테이너를 볼륨 매핑 (docker to local)
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: todos
+
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - todo-mysql-data:/var/lib/mysql # MYSQL의 구조를 리눅스 로컬 호스트 파일로 볼륨 매핑 (MYSQL to local)
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: todos
+
+volumes:
+  todo-mysql-data:

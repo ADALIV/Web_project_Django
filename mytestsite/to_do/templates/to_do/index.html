@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+</head>
+<body><div>
+    <h1>To Do List</h1>
+    {% if list %}
+        <ul>
+        {% for do in list %}
+            <li class="list"><a href="/to_do/{{do.id}}/detail/">{{do.text}}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+    <p>No list are available.</p>
+    {% endif %}
+    <form method="post" action="{% url 'to_do:addDo' %}">
+        {% csrf_token %}
+        <button type="submit">Add list</button>
+    </form>
+</div></body>
+</html>

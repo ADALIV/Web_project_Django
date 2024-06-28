@@ -1,0 +1,62 @@
+div {
+    margin: 0 auto;
+    background-color: blanchedalmond;
+    width: 500px;
+}
+
+h1 {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+h3 {
+    text-align: center;
+}
+
+.list {
+    font-family: sans-serif;
+    margin: 10px;
+}
+
+a {
+    font-size: large;
+    font-weight: bolder;
+    text-decoration: none;
+    color: black;
+}
+
+p {
+    text-align: center;
+}
+
+form {
+    text-align: center;
+}
+
+form > button {
+    border-radius: 15px;
+    color: chocolate;
+    background-color: aqua;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#text {
+    width: 300px;
+    height: 200px;
+    font-size: 16px;
+    text-align: left;
+}
+
+form > label {
+    font-size: large;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+form > input {
+    padding: 10px;
+}

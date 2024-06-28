@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do Detail</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+</head>
+<body><div>
+    <h1>{{ do.text }}</h1>
+    <h3>{{ do.pub_date }}<h3>
+    <form method="post" action="{% url 'to_do:modify' do.id %}">
+        {% csrf_token %}
+        <label for="text">Text</label><br>
+        <textarea cols="30" rows="10" id="text" name="text">{{ do.text }}</textarea><br><br><br>
+
+        <label for="priority">Priority</label><br>
+        {% for value, text in priority_choices %}
+            <input type="radio" name="priority" id="{{ value }}" value="{{ value }}" {% if value == doType.priority %}checked{% endif %}>
+            <label for="{{ value }}">{{ text }}</label>
+        {% endfor %}
+        <br><br><br>
+        <label for="progress">Progress</label><br>
+        {% for value, text in progress_choices %}
+            <input type="radio" name="progress" id="{{ value }}" value="{{ value }}" {% if value == doType.progress %}checked{% endif %}>
+            <label for="{{ value }}">{{ text }}</label>
+        {% endfor %}
+        <br><br><br>
+        <button type="submit">Modify</button>
+    </form>
+    <form method="post" action="{% url 'to_do:delete' do.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+    <form method="post" action="{% url 'to_do:index' %}">
+        {% csrf_token %}
+        <button type="submit">List</button>
+    </form>
+</div></body>
+</html>
