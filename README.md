@@ -1,1 +1,1 @@
-<h1>web backend with django</h1>
+<h1>Web_project_Django</h1>
